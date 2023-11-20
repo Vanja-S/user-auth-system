@@ -16,7 +16,7 @@ CREATE TABLE `members`
     `email`      varchar(45) DEFAULT NULL,
     `pw`         char(68)    NOT NULL,
     `active`     tinyint     NOT NULL,
-    PRIMARY KEY (`user_id`)
+    PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,9 +45,9 @@ VALUES ('john11', 'John', 'Andrews', 'leslie@tv.com',
 CREATE TABLE `roles`
 (
     `username` varchar(50) NOT NULL,
-    `role`    varchar(50) NOT NULL,
-    UNIQUE KEY `authorities5_idx_1` (`user_id`,`role`),
-    CONSTRAINT `authorities5_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `members` (`user_id`)
+    `role`     varchar(50) NOT NULL,
+    UNIQUE KEY `authorities5_idx_1` (`username`,`role`),
+    CONSTRAINT `authorities5_ibfk_1` FOREIGN KEY (`username`) REFERENCES `members` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
