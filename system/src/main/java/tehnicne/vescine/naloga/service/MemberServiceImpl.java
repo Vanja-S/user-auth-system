@@ -9,6 +9,8 @@ import tehnicne.vescine.naloga.entity.Member;
 import tehnicne.vescine.naloga.entity.Role;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
@@ -38,5 +40,14 @@ public class MemberServiceImpl implements MemberService {
         role.setUsername(username);
         role.setRole("ROLE_EMPLOYEE");
         entityManager.merge(role);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUsername(String username) {
+        Optional<Member> member = memberRepository.findById(username);
+        if (member.isPresent()) {
+            memberRepository.deleteById(username);
+        }
     }
 }

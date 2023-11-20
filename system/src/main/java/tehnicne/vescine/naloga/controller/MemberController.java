@@ -56,8 +56,8 @@ public class MemberController {
     }
 
     @GetMapping("/delete")
-    public String deleteMember(@RequestParam("employeeId") int employeeId) {
-//        memberService.deleteById(employeeId);
+    public String deleteMember(@RequestParam("memberUsername") String username) {
+        memberService.deleteByUsername(username);
         return "redirect:/members/list";
     }
 }

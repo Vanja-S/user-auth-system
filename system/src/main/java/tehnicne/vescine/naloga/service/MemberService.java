@@ -8,4 +8,6 @@ public interface MemberService {
     List<Member> findAll();
 
     void save(Member member);
+
+    void deleteByUsername(String username);
 }
