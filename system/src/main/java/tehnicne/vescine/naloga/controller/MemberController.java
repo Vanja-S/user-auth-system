@@ -47,8 +47,11 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public String saveMember(@ModelAttribute("employee") Member employee) {
-//        memberService.save(employee);
+    public String saveMember(@ModelAttribute("member") Member member) {
+        member.setPw("{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q");
+        member.setActive(1);
+        memberService.save(member);
+
         return "redirect:/members/list";
     }
 

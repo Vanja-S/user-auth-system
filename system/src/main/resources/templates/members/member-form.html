@@ -19,7 +19,13 @@
 
     <form th:action="@{/members/save}"
           th:object="${member}" method="POST">
-        <input type="hidden" th:field="*{username}">
+        <!--        <input type="hidden" th:field="*{username}">-->
+        <input type="text" th:field="*{username}" placeholder="Username" class="form-control mb-4 w-25">
+
+        <p>Generate Password hash with a <a href="https://www.luv2code.com/generate-bcrypt-password">Generator Tool</a>
+        </p>
+        <input type="text" th:field="*{pw}" placeholder="Password" class="form-control mb-4 w-25">
+
         <input type="text" th:field="*{firstName}" placeholder="First name" class="form-control mb-4 w-25">
 
         <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control mb-4 w-25">

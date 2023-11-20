@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name = "members")
 public class Member {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+//    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="username")
     private String username;
 
