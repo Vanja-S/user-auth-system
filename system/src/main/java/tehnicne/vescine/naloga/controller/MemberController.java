@@ -8,6 +8,7 @@ import tehnicne.vescine.naloga.entity.Member;
 import tehnicne.vescine.naloga.service.MemberService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/members")
@@ -48,7 +49,16 @@ public class MemberController {
 
     @PostMapping("/save")
     public String saveMember(@ModelAttribute("member") Member member) {
-        member.setPw("{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q");
+        if (member.getPw().isEmpty() || member.getPw().isBlank()) {
+            member.setPw("{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q");
+        } else {
+            Optional<Member> tempMember = memberService.findAll().stream().filter(member1 -> member1.getUsername().equals(member.getUsername())).findFirst();
+            if (tempMember.isPresent()) {
+                if (!tempMember.get().getPw().equals(member.getPw())) {
+                    member.setPw("{bcrypt}" + member.getPw());
+                }
+            }
+        }
         member.setActive(1);
         memberService.save(member);
 

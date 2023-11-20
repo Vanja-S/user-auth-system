@@ -19,18 +19,27 @@
 
     <form th:action="@{/members/save}"
           th:object="${member}" method="POST">
-        <!--        <input type="hidden" th:field="*{username}">-->
-        <input type="text" th:field="*{username}" placeholder="Username" class="form-control mb-4 w-25">
+        <!--        <input type="text" th:field="*{username}" placeholder="Username" class="form-control mb-4 w-25">-->
+        <!-- Display input field if the username is empty -->
+        <div th:if="${#strings.isEmpty(member.username)}">
+            <input type="text" th:field="*{username}" placeholder="Username" class="form-control mb-4 w-25">
+        </div>
+
+        <!-- Display a read-only text field if the username is not empty -->
+        <div th:if="${not #strings.isEmpty(member.username)}">
+            <input type="text" th:field="*{username}" placeholder="Username" class="form-control mb-4 w-25"
+                   readonly="readonly">
+        </div>
 
         <p>Generate Password hash with a <a href="https://www.luv2code.com/generate-bcrypt-password">Generator Tool</a>
         </p>
-        <input type="text" th:field="*{pw}" placeholder="Password" class="form-control mb-4 w-25">
+        <input type="text" th:field="*{pw}" placeholder="Password" class="form-control mb-4 w-100">
 
         <input type="text" th:field="*{firstName}" placeholder="First name" class="form-control mb-4 w-25">
 
         <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control mb-4 w-25">
 
-        <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 w-25">
+        <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 w-50">
 
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>
