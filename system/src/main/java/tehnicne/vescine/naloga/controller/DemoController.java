@@ -1,6 +1,5 @@
 package tehnicne.vescine.naloga.controller;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -9,22 +8,23 @@ public class DemoController {
 
     @GetMapping("/")
     public String showHome() {
-        return "redirect:/members/list";
+
+        return "home";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        return "redirect:/members/list";
+    // add a request mapping for /leaders
+
+    @GetMapping("/leaders")
+    public String showLeaders() {
+
+        return "leaders";
     }
 
-    @GetMapping("/showMyLoginPage")
-    public String showMyLoginPage() {
-        return "fancy-login";
-    }
+    // add request mapping for /systems
 
-    @GetMapping("/access-denied")
-    public String showAccessDeniedPage() {
-        return "access-denied";
+    @GetMapping("/systems")
+    public String showSystems() {
+
+        return "systems";
     }
 }

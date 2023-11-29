@@ -2,41 +2,55 @@ package tehnicne.vescine.naloga.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import tehnicne.vescine.naloga.service.UserService;
 
 @Configuration
 public class SecurityConfig {
+
+    //bcrypt bean definition
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        jdbcUserDetailsManager.setUsersByUsernameQuery("select username, pw, active from members where username=?");
-
-        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select username, role from roles where username=?");
-
-        return jdbcUserDetailsManager;
+    //authenticationProvider bean definition
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService); //set the custom user details service
+        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
+        return auth;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
+
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers("/").hasRole("EMPLOYEE")
                                 .requestMatchers("/leaders/**").hasRole("MANAGER")
                                 .requestMatchers("/systems/**").hasRole("ADMIN")
-                                .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/showMyLoginPage")
-                        .loginProcessingUrl("/authenticateTheUser")
-                        .permitAll())
-                .logout(configurer -> configurer.logoutUrl("/logout").permitAll())
-                .exceptionHandling(configurer -> configurer
-                        .accessDeniedPage("/access-denied"));
+                                .requestMatchers("/register/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(form ->
+                        form
+                                .loginPage("/showMyLoginPage")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .successHandler(customAuthenticationSuccessHandler)
+                                .permitAll()
+                )
+                .logout(logout -> logout.permitAll()
+                )
+                .exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied")
+                );
+
         return http.build();
     }
 }

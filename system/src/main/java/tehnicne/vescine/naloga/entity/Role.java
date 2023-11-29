@@ -3,41 +3,36 @@ package tehnicne.vescine.naloga.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
     @Id
-    @Column(name = "username")
-    private String username;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Id
-    @Column(name = "role")
-    private String role;
+    @Column(name = "name")
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
-    private Member member;
-
-    public String getUsername() {
-        return username;
+    public Role() {
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Role(String name) {
+        this.name = name;
     }
 
-    public String getRole() {
-        return role;
+    public Long getId() {
+        return id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Member getMember() {
-        return member;
+    public String getName() {
+        return name;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setName(String name) {
+        this.name = name;
     }
 }
