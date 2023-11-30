@@ -3,6 +3,7 @@ package tehnicne.vescine.naloga.user;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import tehnicne.vescine.naloga.entity.User;
 
 public class WebUser {
 
@@ -29,6 +30,16 @@ public class WebUser {
 
 	public WebUser() {
 
+	}
+
+	public User toUser() {
+		User user = new User();
+		user.setUserName(userName);
+		user.setPassword(password);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		return user;
 	}
 
 	public String getUserName() {

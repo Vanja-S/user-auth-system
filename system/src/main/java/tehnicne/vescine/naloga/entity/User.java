@@ -1,6 +1,7 @@
 package tehnicne.vescine.naloga.entity;
 
 import jakarta.persistence.*;
+import tehnicne.vescine.naloga.user.WebUser;
 
 import java.util.Collection;
 
@@ -52,6 +53,16 @@ public class User {
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+    }
+
+    public WebUser toWebUser() {
+        WebUser webUser = new WebUser();
+        webUser.setUserName(userName);
+        webUser.setFirstName(firstName);
+        webUser.setLastName(lastName);
+        webUser.setEmail(email);
+        webUser.setPassword(password);
+        return webUser;
     }
 
     public Long getId() {
