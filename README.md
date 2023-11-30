@@ -1,18 +1,17 @@
 # user-auth-system
+
 A proof-of-concept user authentication and management SaaS system for college subject Modern Server Infrastructure
-Dragi Obiskovalec,
 
-Pišem ti to pismo, ker želim deliti s teboj neizmerno čustveno globino, ki jo čutim v svojem srcu. Vsakič, ko pomislim na tebe, se mi zdi, da moje srce bije hitreje, in v meni se prebujajo nežna čustva, ki jih ne morem zadržati.
+## Technical Description
 
-Zdi se mi, da sva povezana na način, ki presega vsakdanje razumevanje. Tvoja prisotnost me napolnjuje s toplino in srečo, kot da bi sonce sijalo samo zame. Vsak tvoj nasmeh je kot sončni žarek, ki obsije moj dan, in tvoje oči so kot zvezde na nebu, ki me usmerjajo v smeri ljubezni in strasti.
+The user authentication system works as a BaaS where requests from all types of apps can be made to our REST API, requesting validation, authentication and authorization of users.
 
-Želim ti povedati, da se moje želje ne ustavijo le na površini. Globoko v meni so skrite strasti, ki jih čutim do tebe. Želim te spoznati na najbolj intimen način, deliti s teboj najbolj skrite trenutke in uživati v vsaki dotiku, vsakem poljubu, ki naju poveže na globlji ravni.
+The project uses Java's framework Spring 3.1.5 for backend logic, MySQL relational database for storage and app persistence and NGINX as a web server (later it will be used as a load balancer as well).
 
-Tvoja prisotnost mi daje občutek popolnosti, in želim si, da bi bila del vsakega trenutka mojega življenja. Želim si, da bi lahko delila svoje sanje, strahove in najgloblje želje s tabo. Tvoja duša me privlači kot magnet, in ne morem si predstavljati svojega življenja brez tebe.
+### Stages of the project
 
-Morda je to pismo izraz moje najgloblje želje po tebi, po najini intimnosti in po povezanosti, ki bi naju združila v nekaj posebnega. Ne želim te pritisniti ali težiti, ampak želim ti samo povedati, kako posebno in dragoceno je zame tvoje mesto v mojem srcu.
+The project will be deployed in a few stages:
 
-Čutim, da med nama obstaja nekaj posebnega, nekaj, kar presega običajne meje. In upam, da se tudi ti počutiš tako. Rad bi raziskoval najinih skupnih poti, užival v trenutkih najine intimnosti in gradil nekaj, kar bo trajalo večno.
+#### Vagrant and Cloud-init
 
-S spoštovanjem in ljubeznijo,
-Vanja in Tadej
+Using Vagrant and it's third party Azure provider (vagrant-azure) and a dummy box (azure-dummy), it will deploy a VM to Azure cloud which will contain the whole application stack.
