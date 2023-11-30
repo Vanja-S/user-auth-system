@@ -1,30 +1,43 @@
 package tehnicne.vescine.naloga.controller;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import tehnicne.vescine.naloga.entity.User;
+import tehnicne.vescine.naloga.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class DemoController {
+    private UserService userService;
+
+    @Autowired
+    public DemoController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/")
-    public String showHome() {
-        return "redirect:/members/list";
+    public String showHome(Model theModel) {
+        List<User> users = userService.findAll();
+        theModel.addAttribute("users", users);
+        return "home";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        return "redirect:/members/list";
+    // add a request mapping for /leaders
+
+    @GetMapping("/leaders")
+    public String showLeaders() {
+
+        return "leaders";
     }
 
-    @GetMapping("/showMyLoginPage")
-    public String showMyLoginPage() {
-        return "fancy-login";
-    }
+    // add request mapping for /systems
 
-    @GetMapping("/access-denied")
-    public String showAccessDeniedPage() {
-        return "access-denied";
+    @GetMapping("/systems")
+    public String showSystems() {
+
+        return "systems";
     }
 }

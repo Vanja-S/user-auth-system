@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>User Not Found</title>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-danger">User Not Found</h5>
+          <p class="card-text">The user with the specified username was not found.</p>
+          <a th:href="@{/}"
+             class="btn btn-primary" onclick="goToHome()">Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goToHome() {
+    // Add the URL of your home page here
+    window.location.href = "/home";
+  }
+</script>
+
+</body>
+</html>
