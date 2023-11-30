@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public String saveMember(
+    public String saveUser(
             @RequestParam("username") String username,
             @Valid @ModelAttribute("member") WebUser webUser,
             BindingResult theBindingResult,
@@ -76,10 +76,10 @@ public class UserController {
         theModel.addAttribute("webUser", webUser);
         return "users/action-confirmation";
     }
-//
-//    @GetMapping("/delete")
-//    public String deleteMember(@RequestParam("memberUsername") String username) {
-//        memberService.deleteByUsername(username);
-//        return "redirect:/members/list";
-//    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam("username") String username) throws UserNotFoundException {
+        userService.deleteByUserName(username);
+        return "redirect:/";
+    }
 }

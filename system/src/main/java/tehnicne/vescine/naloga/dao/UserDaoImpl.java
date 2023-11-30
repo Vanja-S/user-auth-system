@@ -69,4 +69,11 @@ public class UserDaoImpl implements UserDao {
 		}
 		return theUsers;
 	}
+
+	@Override
+	@Transactional
+	public void delete(User theUser) {
+		theUser.getRoles().clear();
+		entityManager.remove(theUser);
+	}
 }

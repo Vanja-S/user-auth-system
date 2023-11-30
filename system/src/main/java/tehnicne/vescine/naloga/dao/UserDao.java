@@ -16,4 +16,6 @@ public interface UserDao {
     void update(User theUser);
 
     List<User> findAll();
+
+    void delete(User theUser);
 }
