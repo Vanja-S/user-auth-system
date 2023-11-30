@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import tehnicne.vescine.naloga.entity.User;
+import tehnicne.vescine.naloga.exception.UserNotFoundException;
 import tehnicne.vescine.naloga.service.UserService;
 
 import java.io.IOException;
@@ -31,7 +32,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         System.out.println("userName=" + userName);
 
-        User theUser = userService.findByUserName(userName);
+        User theUser = null;
+        try {
+            theUser = userService.findByUserName(userName);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         // now place in the session
         HttpSession session = request.getSession();

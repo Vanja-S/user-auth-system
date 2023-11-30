@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import tehnicne.vescine.naloga.entity.User;
+import tehnicne.vescine.naloga.exception.UserNotFoundException;
 import tehnicne.vescine.naloga.service.UserService;
 import tehnicne.vescine.naloga.user.WebUser;
 
@@ -48,7 +49,7 @@ public class RegistrationController {
 	public String processRegistrationForm(
 			@Valid @ModelAttribute("webUser") WebUser theWebUser,
 			BindingResult theBindingResult,
-			HttpSession session, Model theModel) {
+			HttpSession session, Model theModel) throws UserNotFoundException {
 
 		String userName = theWebUser.getUserName();
 		logger.info("Processing registration form for: " + userName);
