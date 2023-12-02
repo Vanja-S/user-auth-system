@@ -36,6 +36,14 @@ Vagrant.configure("2") do |config|
     echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java" >> ~/.bashrc
     source ~/.bashrc
 
+    wget https://dlcdn.apache.org/maven/maven-4/4.0.0-alpha-8/binaries/apache-maven-4.0.0-alpha-8-bin.tar.gz
+    tar -xvf apache-maven-4.0.0-alpha-8-bin.tar.gz
+    mv apache-maven-4.0.0-alpha-8 /opt/
+    ln -s /opt/apache-maven-4.0.0-alpha-8 /opt/maven
+    echo "M2_HOME='/opt/maven" | tee -a /etc/profile.d/maven.sh
+    echo "export MAVEN_HOME=/opt/maven" | tee -a /etc/profile.d/maven.sh
+    echo "export PATH=${M2_HOME}/bin:${PATH}" | tee -a /etc/profile.d/maven.sh
+    source /etc/profile.d/maven.sh
     
   SHELL
 end
