@@ -1,6 +1,6 @@
-DROP DATABASE `employee_directory` IF EXISTS;
+DROP DATABASE IF EXISTS `employee_directory` ;
 
-CREATE DATABASE `employee_directory` IF NOT EXISTS;
+CREATE DATABASE IF NOT EXISTS `employee_directory`;
 
 USE `employee_directory`;
 
