@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
 
   # Networking
   config.vm.network :private_network, ip: "10.0.0.10"
+  # Web serving from spring
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   #
   # View the documentation for the provider you are using for more
