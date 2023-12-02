@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
     mysql -u root -p < ./sql-scripts/db-script-v2.sql
 
     # Run application
-    mvn clean package
-    java -jar ./target/user-auth-system-1.0.0.jar
+    # mvn clean package
+    # java -jar ./target/user-auth-system-1.0.0.jar
   SHELL
 end
