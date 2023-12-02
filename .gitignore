@@ -36,3 +36,6 @@ build/
 
 ### .env file ###
 .env
+
+### Vagrant files ###
+.vagrant/machines/*
