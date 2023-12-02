@@ -40,10 +40,10 @@ Vagrant.configure("2") do |config|
     tar -xvf apache-maven-4.0.0-alpha-8-bin.tar.gz
     mv apache-maven-4.0.0-alpha-8 /opt/
     ln -s /opt/apache-maven-4.0.0-alpha-8 /opt/maven
-    echo "M2_HOME='/opt/maven" | tee -a /etc/profile.d/maven.sh
-    echo "export MAVEN_HOME=/opt/maven" | tee -a /etc/profile.d/maven.sh
-    echo "export PATH=${M2_HOME}/bin:${PATH}" | tee -a /etc/profile.d/maven.sh
+    echo 'export M2_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+    echo 'export MAVEN_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+    echo 'export PATH=${M2_HOME}/bin:${PATH}' | tee -a /etc/profile.d/maven.sh
     source /etc/profile.d/maven.sh
-    
+
   SHELL
 end
