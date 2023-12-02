@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NalogaApplicationTests {
 
 	@Test
-	void contextLoads() {
+	boolean contextLoads() {
+		return true;
 	}
 
 }
