@@ -45,5 +45,13 @@ Vagrant.configure("2") do |config|
     echo 'export PATH=${M2_HOME}/bin:${PATH}' | tee -a /etc/profile.d/maven.sh
     source /etc/profile.d/maven.sh
 
+    # Application source code
+    cd /srv/
+    git clone https://github.com/Vanja-S/user-auth-system
+
+    # Run application
+    cd ./user-auth-system/system
+    ls .
+    mvn clean package
   SHELL
 end
