@@ -32,18 +32,18 @@ Vagrant.configure("2") do |config|
     apt-get update
     
     # Java and Maven
-    # apt-get install -y openjdk-17-jdk
-    # echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java" >> ~/.bashrc
-    # source ~/.bashrc
+    apt-get install -y openjdk-17-jdk
+    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java" >> ~/.bashrc
+    source ~/.bashrc
 
-    # wget https://dlcdn.apache.org/maven/maven-4/4.0.0-alpha-8/binaries/apache-maven-4.0.0-alpha-8-bin.tar.gz
-    # tar -xvf apache-maven-4.0.0-alpha-8-bin.tar.gz
-    # mv apache-maven-4.0.0-alpha-8 /opt/
-    # ln -s /opt/apache-maven-4.0.0-alpha-8 /opt/maven
-    # echo 'export M2_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
-    # echo 'export MAVEN_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
-    # echo 'export PATH=${M2_HOME}/bin:${PATH}' | tee -a /etc/profile.d/maven.sh
-    # source /etc/profile.d/maven.sh
+    wget https://dlcdn.apache.org/maven/maven-4/4.0.0-alpha-8/binaries/apache-maven-4.0.0-alpha-8-bin.tar.gz
+    tar -xvf apache-maven-4.0.0-alpha-8-bin.tar.gz
+    mv apache-maven-4.0.0-alpha-8 /opt/
+    ln -s /opt/apache-maven-4.0.0-alpha-8 /opt/maven
+    echo 'export M2_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+    echo 'export MAVEN_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+    echo 'export PATH=${M2_HOME}/bin:${PATH}' | tee -a /etc/profile.d/maven.sh
+    source /etc/profile.d/maven.sh
 
     # Application source code
     cd /srv/
@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
     sudo mysql -u root -p'root' < ./sql-scripts/db-script-v2.sql
 
     # Run application
-    # mvn clean package
-    # java -jar ./target/user-auth-system-1.0.0.jar
+    mvn clean package
+    java -jar ./target/user-auth-system-1.0.0.jar
   SHELL
 end
