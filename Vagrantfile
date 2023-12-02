@@ -1,10 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'dotenv'
-Dotenv.load('.env')
-
 Vagrant.configure("2") do |config|
+  config.env.enable
 
   config.vm.box = "ubuntu/focal64"
 
