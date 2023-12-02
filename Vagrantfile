@@ -59,8 +59,25 @@ Vagrant.configure("2") do |config|
     sudo mysql -u root -p'root' -e "FLUSH PRIVILEGES"
     sudo mysql -u root -p'root' < ./sql-scripts/db-script-v2.sql
 
-    # Run application
+    # Create service to run application
     mvn clean package
-    java -jar ./target/user-auth-system-1.0.0.jar
+    touch /etc/systemd/system/user-auth-system.service
+
+    echo "[Unit]" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "Description=user-auth-system" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "After=network.target" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "[Service]" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "ExecStart=java -jar /srv/user-auth-system/system/target/user-auth-system-1.0.0.jar" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "[Install]" | tee -a /etc/systemd/system/user-auth-system.service
+    echo "WantedBy=multi-user.target" | tee -a /etc/systemd/system/user-auth-system.service
+
+    fuser -k 80/tcp
+
+    systemctl daemon-reload
+    systemctl enable user-auth-system.service
+    systemctl start user-auth-system.service
+
   SHELL
 end
