@@ -48,13 +48,19 @@ Vagrant.configure("2") do |config|
     # Application source code
     cd /srv/
     git clone -b feature/vagrant-for-virtualbox https://github.com/Vanja-S/user-auth-system
+    cd ./user-auth-system/system
 
     # Setup Database dependencies for the application
     apt-get install -y mysql-server
     systemctl start mysql.service
+    mysql -e "UPDATE mysql.user SET Password = PASSWORD('root') WHERE User = 'root'"
+    mysql -e "DROP USER ''@'localhost'"
+    mysql -e "DROP USER ''@'$(hostname)'"
+    mysql -e "DROP DATABASE test"
+    mysql -e "FLUSH PRIVILEGES"
+    mysql -u root -p < ./sql-scripts/db-script-v2.sql
 
     # Run application
-    cd ./user-auth-system/system
     mvn clean package
     java -jar ./target/user-auth-system-1.0.0.jar
   SHELL
