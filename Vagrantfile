@@ -79,10 +79,8 @@ Vagrant.configure("2") do |config|
     systemctl enable user-auth-system.service
     systemctl start user-auth-system.service
 
-    # Ingress controller ngrok
-    curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc > /dev/null 
-    echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list 
-    sudo apt install ngrok
-
+    # Ingress controller ngrok 
+    sudo snap install ngrok
+    ngrok http 80
   SHELL
 end
