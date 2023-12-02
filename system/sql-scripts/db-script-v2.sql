@@ -1,5 +1,8 @@
-USE
-`employee_directory`;
+DROP DATABASE `employee_directory` IF EXISTS;
+
+CREATE DATABASE `employee_directory` IF NOT EXISTS;
+
+USE `employee_directory`;
 
 SET
 foreign_key_checks = 0;
