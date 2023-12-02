@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'dotenv'
+Dotenv.load('.env')
+
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/focal64"
@@ -82,7 +85,7 @@ Vagrant.configure("2") do |config|
     # Ingress controller ngrok 
     sudo snap install ngrok
     ngrok http 80
-    ngrok config add-authtoken 2Z0DbL83ZytJsqLJr5hXZPZ85pA_4cKJzE4jey8b197YiveZK
+    ngrok config add-authtoken $NGROK_AUTHTOKEN
 
   SHELL
 end
