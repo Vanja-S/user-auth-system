@@ -53,12 +53,9 @@ Vagrant.configure("2") do |config|
     # Setup Database dependencies for the application
     apt-get install -y mysql-server
     systemctl start mysql.service
-    mysql -e "UPDATE mysql.user SET Password = PASSWORD('root') WHERE User = 'root'"
-    mysql -e "DROP USER ''@'localhost'"
-    mysql -e "DROP USER ''@'$(hostname)'"
-    mysql -e "DROP DATABASE test"
+    mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'";
     mysql -e "FLUSH PRIVILEGES"
-    mysql -u root -p < ./sql-scripts/db-script-v2.sql
+    mysql -u root -p root < ./sql-scripts/db-script-v2.sql
 
     # Run application
     # mvn clean package
