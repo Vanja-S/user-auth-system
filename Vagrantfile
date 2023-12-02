@@ -82,5 +82,7 @@ Vagrant.configure("2") do |config|
     # Ingress controller ngrok 
     sudo snap install ngrok
     ngrok http 80
+    ngrok config add-authtoken 2Z0DbL83ZytJsqLJr5hXZPZ85pA_4cKJzE4jey8b197YiveZK
+
   SHELL
 end
