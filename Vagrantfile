@@ -84,7 +84,6 @@ Vagrant.configure("2") do |config|
     sudo snap install ngrok
     source /vagrant/.env
     ngrok config add-authtoken $NGROK_AUTHTOKEN
-    ngrok http 8080
 
   SHELL
 end
