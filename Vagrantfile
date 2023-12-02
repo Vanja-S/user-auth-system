@@ -47,11 +47,15 @@ Vagrant.configure("2") do |config|
 
     # Application source code
     cd /srv/
-    git clone https://github.com/Vanja-S/user-auth-system
+    git clone -b feature/vagrant-for-virtualbox https://github.com/Vanja-S/user-auth-system
+
+    # Setup Database dependencies for the application
+    apt-get install -y mysql-server
+    systemctl start mysql.service
 
     # Run application
     cd ./user-auth-system/system
-    ls .
     mvn clean package
+    java -jar ./target/user-auth-system-1.0.0.jar
   SHELL
 end
