@@ -1,0 +1,101 @@
+#cloud-config
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKAISJHJ9cuS/666lem3yxqNJJR6DtJ37OJjZPa4wZgDQ+MqZ7C0wU0AGAOUI9ENID0SL25jI670mFN0ZVfZrzxq1y3y70XIsnh30HIj0+NcKEmHipym1qbqXiZq0vPes+EMTwp90FV4tX8WbECN/+CbHxUMuWOlleKb51MJEz8shGrxcTzuOh0mTgoFgJW0WiZ5JspIsi9DTQRYh9CnhSo54zdh4qyjq+fPl/UIgxwx1lnSIEpxZPuCRQaPiVvffMsW8NafaXU6T09mw41WRV78Xt+v9+Jli05ZjxYmEiXsjvLz3RNRKFgPS+Lu8FmL2K4IDdXYsYgGpzeWd+/GSEyCMEYu7hGL2KA4arp5vqD+t8b6Qeu4P4m3ya/zDKoDcToeLjMopfqXxorZqb2UYkUwDWAZYRGhKEvZWnkKlc8J1hVZvrmfJNdWXmO2UOxdAynsOXBg9YFRb9dSoj4hisCQ61P/Lc2zkyWGL3aPdLPrFVrfTdTIUZj2P+ZYxc1O8= vanja@Vanjas-MacBook-Pro.local
+
+package_update: true
+package_upgrade: true
+packages:
+  - openjdk-17-jdk
+  - mysql-server
+  - git
+
+runcmd:
+  # Update
+  - sudo apt-get update
+  - sudo killall apt apt-get
+  - sudo rm /var/lib/apt/lists/lock
+  - sudo rm /var/cache/apt/archives/lock
+  - sudo rm /var/lib/dpkg/lock*
+  - sudo dpkg --configure -a
+
+  # Download application stack
+  ## Java and Maven
+  - sudo apt-get install -y net-tools
+  - apt-get install -y openjdk-17-jdk
+  - echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java" >> ~/.bashrc
+  - source ~/.bashrc
+
+  - wget https://dlcdn.apache.org/maven/maven-4/4.0.0-alpha-8/binaries/apache-maven-4.0.0-alpha-8-bin.tar.gz
+  - tar -xvf apache-maven-4.0.0-alpha-8-bin.tar.gz
+  - mv apache-maven-4.0.0-alpha-8 /opt/
+  - ln -s /opt/apache-maven-4.0.0-alpha-8 /opt/maven
+  - echo 'export M2_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+  - echo 'export MAVEN_HOME=/opt/maven' | tee -a /etc/profile.d/maven.sh
+  - echo 'export PATH=${M2_HOME}/bin:${PATH}' | tee -a /etc/profile.d/maven.sh
+  - source /etc/profile.d/maven.sh
+
+  # Source code
+  - cd /srv/
+  - git clone https://github.com/Vanja-S/user-auth-system
+  - cd ./user-auth-system/system
+
+  - apt-get install -y mysql-server
+  - systemctl start mysql.service
+  - sudo mysql -u root -p'root' -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'";
+  - sudo mysql -u root -p'root' -e "FLUSH PRIVILEGES"
+  - sudo mysql -u root -p'root' < ./sql-scripts/db-script-v2.sql
+
+  # Service
+  - mvn clean package
+  - touch /etc/systemd/system/user-auth-system.service
+
+  - echo "[Unit]" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "Description=user-auth-system" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "After=network.target" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "[Service]" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "ExecStart=java -jar /srv/user-auth-system/system/target/user-auth-system-1.0.0.jar" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "[Install]" | tee -a /etc/systemd/system/user-auth-system.service
+  - echo "WantedBy=multi-user.target" | tee -a /etc/systemd/system/user-auth-system.service
+
+  - fuser -k 80/tcp
+
+  - systemctl daemon-reload
+  - systemctl enable user-auth-system.service
+  - systemctl start user-auth-system.service
+
+  # Ingress controller ngrok 
+  - sudo snap install ngrok
+  - source /vagrant/.env
+  - ngrok config add-authtoken $NGROK_AUTHTOKEN
+
+
+
+
+
+# Networking
+# resolv_conf:
+#   nameserver:
+#     - '8.8.8.8'
+
+# network:
+#   version: 2
+#   ethernets:
+#     ens33:
+#       addresses: [10.0.0.10/24]
+#       dhcp4: no
+#       optional: true
+
+
+
+# runcmd:
+#   - iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# datasource_list: [None]  # Assuming no cloud metadata service
+# datasource:
+#   None:
+#     user-data:
+#       instance-type: custom
+#       vcpu-count: 2
+#       mem-size: 4096  # 4GB RAM in MB
