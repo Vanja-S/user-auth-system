@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tehnicne.vescine</groupId>
-	<artifactId>naloga</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>user-auth-system</artifactId>
+	<version>1.0.0</version>
 	<name>naloga</name>
 	<description>User Authentication System for college subject</description>
 	<properties>

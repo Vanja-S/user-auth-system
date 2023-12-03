@@ -1,18 +1,34 @@
 # user-auth-system
+
 A proof-of-concept user authentication and management SaaS system for college subject Modern Server Infrastructure
-Dragi Obiskovalec,
 
-Pišem ti to pismo, ker želim deliti s teboj neizmerno čustveno globino, ki jo čutim v svojem srcu. Vsakič, ko pomislim na tebe, se mi zdi, da moje srce bije hitreje, in v meni se prebujajo nežna čustva, ki jih ne morem zadržati.
+## Technical Description
 
-Zdi se mi, da sva povezana na način, ki presega vsakdanje razumevanje. Tvoja prisotnost me napolnjuje s toplino in srečo, kot da bi sonce sijalo samo zame. Vsak tvoj nasmeh je kot sončni žarek, ki obsije moj dan, in tvoje oči so kot zvezde na nebu, ki me usmerjajo v smeri ljubezni in strasti.
+The user authentication system works as a BaaS where requests from all types of apps can be made to our REST API, requesting validation, authentication and authorization of users.
 
-Želim ti povedati, da se moje želje ne ustavijo le na površini. Globoko v meni so skrite strasti, ki jih čutim do tebe. Želim te spoznati na najbolj intimen način, deliti s teboj najbolj skrite trenutke in uživati v vsaki dotiku, vsakem poljubu, ki naju poveže na globlji ravni.
+The project uses Java's framework Spring 3.1.5 for backend logic, MySQL relational database for storage and app persistence and built-in Spring framework Tomcat for http serving.
 
-Tvoja prisotnost mi daje občutek popolnosti, in želim si, da bi bila del vsakega trenutka mojega življenja. Želim si, da bi lahko delila svoje sanje, strahove in najgloblje želje s tabo. Tvoja duša me privlači kot magnet, in ne morem si predstavljati svojega življenja brez tebe.
+### Stages of the project
 
-Morda je to pismo izraz moje najgloblje želje po tebi, po najini intimnosti in po povezanosti, ki bi naju združila v nekaj posebnega. Ne želim te pritisniti ali težiti, ampak želim ti samo povedati, kako posebno in dragoceno je zame tvoje mesto v mojem srcu.
+The project will be deployed in a few stages:
 
-Čutim, da med nama obstaja nekaj posebnega, nekaj, kar presega običajne meje. In upam, da se tudi ti počutiš tako. Rad bi raziskoval najinih skupnih poti, užival v trenutkih najine intimnosti in gradil nekaj, kar bo trajalo večno.
+#### Vagrant and Cloud-init
 
-S spoštovanjem in ljubeznijo,
-Vanja in Tadej
+Using Vagrant and it's Virtual Box provider (virtual) and a ubuntu box (ubuntu/focal64), it will deploy a VM to a local Virtual Box hypervisor instance which will contain the whole application stack.
+
+In this stage the application stack consists of the Java Spring application, a MySQL database instance and optionally ngrok
+a free ingress controller, SSL/TLS terminator and load-balancer, which can be setup mannualy just by adding a ngrok rule to the vm "$ngrok http --domain=koi-humorous-gradually.ngrok-free.app 80" where the service serves the mentioned **port on the host**, the domain is a free static domain given by ngrok:
+
+[DOSTOP IZ NGROK]
+
+Optionally we can set up a so-called ngrok *edge* to terminate HTTPS, SSL or TLS traffic. Access to this application can be restricted through ngrok management, however that is just a proof-of-concept in this project since it requires a paid license.
+
+The spring application, after being build and put into a jar file, is then packed into a Linux ubuntu service and ran in the background to listen on the already mentioned port 8080. The Vagrantfile then port-forwards this to the hosts 8080 from the VMs 80. The VM is put in a private virtual network with an IP of 10.0.0.10.
+
+[DOSTOP IZ IP-ja]
+
+The Vagrant provisioning file is simply structured, the machine gets provisioned with 4069GB of RAM and 2 VCPUs, the networking aforementioned and then the shell script which populates the VM with the application stack. Among other things it, downloads the Java OpenJDK (17.x), Maven Java project manager (4.0.0) and the source code from this git repo, deploys a MySQL server instance and populates it with the SQL script in the repo for spring to be able to access it, creates a custom service and spins it up through port 80.
+
+---
+
+With Cloud-init the story is as follows
