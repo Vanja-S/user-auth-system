@@ -4,6 +4,7 @@
 Vagrant.configure("2") do |config|
   config.env.enable
 
+  # Linux ubuntu 20.04
   config.vm.box = "ubuntu/focal64"
 
   config.vm.boot_timeout = 600

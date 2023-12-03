@@ -17,9 +17,11 @@ The project will be deployed in a few stages:
 Using Vagrant and it's Virtual Box provider (virtual) and a ubuntu box (ubuntu/focal64), it will deploy a VM to a local Virtual Box hypervisor instance which will contain the whole application stack.
 
 In this stage the application stack consists of the Java Spring application, a MySQL database instance and optionally ngrok
-a free ingress controller, SSL/TLS terminator and load-balancer, which can be setup mannualy just by adding a ngrok rule to the vm "$ngrok http 8080" where the service serves the mentioned **port on the host**:
+a free ingress controller, SSL/TLS terminator and load-balancer, which can be setup mannualy just by adding a ngrok rule to the vm "$ngrok http --domain=koi-humorous-gradually.ngrok-free.app 80" where the service serves the mentioned **port on the host**, the domain is a free static domain given by ngrok:
 
 [DOSTOP IZ NGROK]
+
+Optionally we can set up a so-called ngrok *edge* to terminate HTTPS, SSL or TLS traffic. Access to this application can be restricted through ngrok management, however that is just a proof-of-concept in this project since it requires a paid license.
 
 The spring application, after being build and put into a jar file, is then packed into a Linux ubuntu service and ran in the background to listen on the already mentioned port 8080. The Vagrantfile then port-forwards this to the hosts 8080 from the VMs 80. The VM is put in a private virtual network with an IP of 10.0.0.10.
 
