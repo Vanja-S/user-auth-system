@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
 
     # Application source code
     cd /srv/
-    git clone -b feature/vagrant-for-virtualbox https://github.com/Vanja-S/user-auth-system
+    git clone https://github.com/Vanja-S/user-auth-system
     cd ./user-auth-system/system
 
     # Setup Database dependencies for the application

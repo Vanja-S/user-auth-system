@@ -31,4 +31,8 @@ The Vagrant provisioning file is simply structured, the machine gets provisioned
 
 ---
 
-With Cloud-init the story is as follows
+With Cloud-init the story is as follows, using Canonical's multipass, we can spina focal64 20.04 ubuntu VM with the command written in mkvm.sh script. The script takes in a parameter that will represent the VMs name when spun up. The multipass command will use the cloud-config.yaml configuration.
+
+The cloud-config cloud-init configuration does a few simple things, allows a specific ssh key to be authenticated while ssh-ing into the VM.
+
+The script then runs all necessary commands just like in Vagrant, to download the application stack and dependencies. Just like in vagrant VM you can ssh and activate ngrok tunnel for internet exposure.
